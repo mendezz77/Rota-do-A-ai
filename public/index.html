@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Planeje a coleta de açaí e compare rotas considerando distância e maré.">
+  <title>Rota do Açaí</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-dot"></span> PLANEJAMENTO DE COLETA</p>
+        <h1><span class="brand-mark" aria-hidden="true">🛶</span> Rota do Açaí</h1>
+        <p class="hero-description">Do primeiro ponto ao retorno à base, planeje uma coleta mais inteligente pelo rio.</p>
+      </div>
+      <div class="hero-note">
+        <span class="hero-note-icon" aria-hidden="true">✦</span>
+        <span class="hero-note-label">FEITO PARA A ROTINA RIBEIRINHA</span>
+        <strong>Mais organização.<br>Menos tempo no rio.</strong>
+        <span class="hero-note-caption">Distância, capacidade e maré em um só lugar.</span>
+      </div>
+    </div>
+    <div class="hero-footer">
+      <span><span class="footer-icon">01</span> Configure</span>
+      <span class="footer-divider"></span>
+      <span><span class="footer-icon">02</span> Cadastre os pontos</span>
+      <span class="footer-divider"></span>
+      <span><span class="footer-icon">03</span> Otimize a rota</span>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <div class="intro-strip">
+      <span class="intro-icon" aria-hidden="true">✧</span>
+      <p>Preencha os dados da viagem, adicione os locais de coleta e deixe o planejamento trabalhar por você.</p>
+      <span class="local-badge"><span></span> Planejamento local</span>
+    </div>
+
+    <section class="card" aria-labelledby="config-titulo">
+      <div class="section-heading">
+        <span class="step-number">01</span>
+        <div>
+          <p class="section-eyebrow">ANTES DE PARTIR</p>
+          <h2 id="config-titulo">Dados do barco e da maré</h2>
+        </div>
+        <span class="section-decoration" aria-hidden="true">〰</span>
+      </div>
+      <div class="grid">
+        <label for="saida">Saída da base
+          <input type="time" id="saida" value="05:00" required>
+        </label>
+        <label for="vel">Velocidade (km/h)
+          <input type="number" id="vel" value="12" min="0.1" step="0.1" required>
+        </label>
+        <label for="cap">Capacidade (kg)
+          <input type="number" id="cap" value="2000" min="1" step="1" required>
+        </label>
+        <label for="mare">Maré cheia (horário)
+          <input type="time" id="mare" value="07:30" required>
+        </label>
+        <label for="folga">Janela (± min)
+          <input type="number" id="folga" value="90" min="0" step="1" required>
+        </label>
+      </div>
+      <p class="dica">A distância representa o percurso da base até cada ponto no mesmo trecho de rio.</p>
+    </section>
+
+    <section class="card" aria-labelledby="ia-titulo">
+      <div class="section-heading">
+        <span class="feature-icon" aria-hidden="true">✦</span>
+        <div>
+          <p class="section-eyebrow">CADASTRO RÁPIDO</p>
+          <h2 id="ia-titulo">Conte com suas palavras</h2>
+        </div>
+        <span class="optional-badge">IA opcional</span>
+      </div>
+      <p class="dica">Descreva os pontos como o cooperado falou. Confira os dados extraídos antes de calcular a rota.</p>
+      <label class="sr-only" for="texto-livre">Descrição dos pontos de coleta</label>
+      <textarea id="texto-livre" rows="4" maxlength="2000"
+        placeholder="Ex: Seu Raimundo tem uns 300 kg no igarapé do Meio, a uns 8 km, só dá pra entrar na cheia."></textarea>
+      <button id="btn-ia-texto" type="button">Cadastrar com IA</button>
+      <p id="msg-ia" class="dica" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card" aria-labelledby="pontos-titulo">
+      <div class="section-heading">
+        <span class="step-number">02</span>
+        <div>
+          <p class="section-eyebrow">SEU ROTEIRO</p>
+          <h2 id="pontos-titulo">Pontos de coleta</h2>
+        </div>
+        <span class="section-decoration" aria-hidden="true">⌖</span>
+      </div>
+      <form id="form-ponto" class="grid">
+        <label for="nome">Nome
+          <input type="text" id="nome" required maxlength="120" placeholder="Ex: Igarapé Grande">
+        </label>
+        <label for="dist">Distância da base (km)
+          <input type="number" id="dist" step="0.1" min="0" required>
+        </label>
+        <label for="kg">Açaí estimado (kg)
+          <input type="number" id="kg" min="0" step="1" required>
+        </label>
+        <label for="min">Tempo de carga (min)
+          <input type="number" id="min" min="0" step="1" value="20" required>
+        </label>
+        <label class="check" for="precisaMare">
+          <input type="checkbox" id="precisaMare"> Só acessível na maré cheia
+        </label>
+        <button type="submit">Adicionar ponto</button>
+      </form>
+      <ul id="lista" aria-live="polite"></ul>
+    </section>
+
+    <section class="card" aria-labelledby="rota-titulo">
+      <div class="section-heading">
+        <span class="step-number">03</span>
+        <div>
+          <p class="section-eyebrow">PRONTO PARA NAVEGAR?</p>
+          <h2 id="rota-titulo">Planejamento da rota</h2>
+        </div>
+      </div>
+      <button id="btn-calcular" class="principal" type="button"><span aria-hidden="true">✦</span> Otimizar minha rota <span class="button-arrow" aria-hidden="true">→</span></button>
+      <div id="resultado" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <span>Rota do Açaí</span>
+    <span>Planejamento simples para jornadas mais tranquilas.</span>
+  </footer>
+  <script src="script.js" defer></script>
+</body>
+</html>
